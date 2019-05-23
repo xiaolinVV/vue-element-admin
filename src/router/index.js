@@ -1,12 +1,15 @@
 import Vue from 'vue'
+
+// 引入vue-router
 import Router from 'vue-router'
 
+// 使用 vue-router
 Vue.use(Router)
 
-/* Layout */
+/* Layout 引入全局布局容器*/
 import Layout from '@/layout'
 
-/* Router Modules */
+/* Router Modules 引入解耦路由模块*/
 import componentsRouter from './modules/components'
 import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
@@ -387,6 +390,7 @@ export const asyncRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
+// 创建路由实例
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
@@ -401,4 +405,5 @@ export function resetRouter() {
   router.matcher = newRouter.matcher // reset router
 }
 
+// 导出路由实例
 export default router
