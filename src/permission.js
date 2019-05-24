@@ -10,25 +10,35 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
 
+// 全局前置守卫
 router.beforeEach(async(to, from, next) => {
   // start progress bar
+  // 开启loading
   NProgress.start()
 
   // set page title
+  // 设置标题
   document.title = getPageTitle(to.meta.title)
 
   // determine whether the user has logged in
+  // 获取登录 token
   const hasToken = getToken()
 
+  // 判断 token 是否存在
   if (hasToken) {
+    // 如果 token 已存在并且目标路由是登录页
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
+      // 直接定向到首页,即自动登录
       next({ path: '/' })
+      // 取消 loading
       NProgress.done()
     } else {
       // determine whether the user has obtained his permission roles through getInfo
+      // 如果 token 已存在并且目标路由不是登录页,则需判断是否有权限跳转
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
       if (hasRoles) {
+        // 有权限  直接跳转
         next()
       } else {
         try {
